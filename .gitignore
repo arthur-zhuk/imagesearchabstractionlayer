@@ -1,0 +1,16 @@
+node_modules/
+.eslintrc
+.env
+sizeStorer.wt
+storage.bson
+collection-0--3956759982550943838.wt
+diagnostic.data/
+index-1--3956759982550943838.wt
+journal/
+mongod.lock
+WiredTiger
+WiredTiger.lock
+WiredTiger.turtle
+WiredTiger.wt
+WiredTigerLAS.wt
+_mdb_catalog.wt
