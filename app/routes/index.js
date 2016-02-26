@@ -2,6 +2,7 @@
 
 var path = process.cwd();
 var request = require('request');
+var history = [];
 
 var urlController = require(path + '/app/controllers/urlController.js');
 var give = new urlController();
@@ -28,22 +29,27 @@ module.exports = function (app) {
 	app.route('/api/imagesearch/:query')
 		.get(function (req, res) {
 			var options = {
-				url: 'https://api.imgur.com/3/gallery/search?q=' + req.params.query,
+				url: 'https://api.imgur.com/3/gallery/search?q=' + req.params.query + '&page=' + req.query.offset,
 				headers: {
 					'authorization': 'Client-ID 0a2b7e7421cd00d'
 				}
 			};
 
+
 			function callback (error, response, body) {
-				var info = JSON.parse(body);
-				console.log(info);
-				res.json(info);
+				if (!error && response.statusCode == 200){
+					var info = JSON.parse(body);
+					res.json(info);
+				}
+
 			}
 
 			request(options, callback);
+			history.push({term: req.params.query, date: new Date().toUTCString() });
 		});
-	app.route('api/latest/imagesearch')
+
+	app.route('/api/latest/imagesearch')
 		.get(function(req, res) {
-			res.json("nothing");
+			res.json(history);
 		});
 };
